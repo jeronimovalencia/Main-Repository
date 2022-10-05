@@ -1,0 +1,302 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[10pt]{article}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+\usepackage{pifont}
+\usepackage{marvosym}
+
+
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}%
+        {\vspace{-\baselineskip}\begin{list}{}{%
+       \setlength{\leftmargin}{\bibhang}%
+       \setlength{\itemindent}{-\leftmargin}%
+       \setlength{\itemsep}{\bibsep}%
+       \setlength{\parsep}{\z@}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+%\usepackage[paper=letterpaper,
+%           %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=0.7in,     % Length of section titles
+%            marginparsep=.05in,       % Space between titles and text
+%            margin=0.5in,               % 1 inch margins
+%            includemp]{geometry}
+
+% Use these lines for A4-sized paper
+\usepackage[paper=a4paper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=24mm,    % Length of section titles
+            marginparsep=1mm,       % Space between titles and text
+            margin=15mm,              % 25mm margins
+            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+%% This gives us fun enumeration environments. compactitem will be nice.
+\usepackage{paralist}
+\usepackage[shortlabels]{enumitem}
+% \usepackage[misc]{ifsym}
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.1\textwidth+0.1\marginparsep+0.1\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{3.5in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+%
+% Usage: \makeheading{name}
+%
+% Place at top of document. It should be the first thing.
+\newcommand{\makeheading}[1]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+                {\large \bfseries #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+%
+% Follow this section IMMEDIATELY with the first line of the section
+% text. Do not put whitespace in between. That is, do this:
+%
+%       \section{My Information}
+%       Here is my information.
+%
+% and NOT this:
+%
+%       \section{My Information}
+%
+%       Here is my information.
+%
+% Otherwise the top of the section header will not line up with the top
+% of the section. Of course, using a single comment character (%) on
+% empty lines allows for the function of the first example with the
+% readability of the second example.
+\renewcommand{\section}[2]%
+        {\pagebreak[1]\vspace{1.5\baselineskip}%
+         \phantomsection\addcontentsline{toc}{section}{#1}%
+         \hspace{0in}%
+         \marginpar{
+         \raggedright \scshape #1}#2}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1]}{\end{itemize}%
+         \vspace{-0.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+% \newenvironment{innerlist}[1][\enskip\textbullet]%
+\newenvironment{innerlist}[1][\enskip$\circ$]%
+        {\begin{compactitem}[#1]}{\end{compactitem}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{compactitem}[#1]}
+        {\end{compactitem}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[2]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\hyphenpenalty = 9999
+\def\vs{\vspace{-0.1in}}
+\begin{document}
+% \makeheading{Curriculum Vitae\\ [0.3cm] TIEP HUU VU\quad~~~~~~\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad{\small Last update: December 17, 2015}}
+\makeheading{Jerónimo Valencia Porras }
+
+
+\section{Información de Contacto}
+\newlength{\rcollength}\setlength{\rcollength}{3 in}
+\vs
+
+\texttt{Linkedin:}\href{https://www.linkedin.com/in/jeronimo-valencia-porras/}{www.linkedin.com/in/jeronimo-valencia-porras/}\\
+\texttt{GitHub:}\href{http://www.github.com/jeronimovalencia}{www.github.com/jeronimovalencia}\\
+{\large\Letter} \texttt{E-mail:}\href{mailto:jeronimovalencia9711gmail.com}{jeronimovalencia9711@gmail.com}\\
+
+
+%\section{Research Background} % (fold)
+%\label{sec:research_backg}
+%\vspace{-0.25in}
+%\begin{outerlist}
+%  \item {\bf ??}: more descriptions here.
+%  \item {\bf ??}:
+%\end{outerlist}
+% section research_backg (end)
+%% =========  ==============================
+\section{Educación}
+    \href{https://matematicas.uniandes.edu.co/}{\textbf{Maestría en Matemáticas, Universidad de los Andes}} \hfill Esperado Abr. 2022 \\ Bogotá, Colombia
+    
+    \vspace{0.5cm}
+     \href{https://matematicas.uniandes.edu.co/}{\textbf{Pregrado en Matematicas, Universidad de los Andes}} \hfill Abr. 2020 \\ Bogotá, Colombia
+    
+    \vspace{0.5cm}
+    
+    \href{https://fisica.uniandes.edu.co/}{\textbf{Pregrado en Física, Universidad de los Andes}}\hfill Abr. 2019 \\ Bogotá, Colombia
+
+%% =========  ==============================
+
+\section{Experiencia en Enseñanza}
+\vspace{-.25in}
+\begin{outerlist}
+    \item {\bf Asistente del profesor} \hfill Oct. - Nov. 2021 \\ Mathematics Sin Fronteras, Brown University.
+    \begin{innerlist}
+        \item {\it Curso:} Lattice paths, linear algebra and combinatorics. \\ A cargo de Prof. Carolina Benedetti Velásquez.
+        \item[-] Traducir materiales del curso. 
+        \item[-] Resolver preguntas de los estudiantes sobre los ejercicios semanales.
+    \end{innerlist}
+    \item{\bf Profesor Complementario} \hfill 2017-2021 \\ Departmento de Matemáticas, Universidad de los Andes.
+    \begin{innerlist}
+        \item {\it Cursos:} Cálculo Diferencial, Cálculo Integral, Cálculo Integral con Probabilidad,\\ Cálculo Vectorial, Álgebra Lineal.
+        \item[-] Planeación y dictado de clases semanales enfocadas en resolución de ejercicios. 
+        \item[-] Diseño de quices y tareas semanales, con su respectiva calificación.
+        \item[-] Apoyo al profesor para calificación de exámenes.   
+    \end{innerlist}
+    \item {\bf Monitor} \\ Departmento de Matemáticas, Universidad de los Andes. 
+    \begin{innerlist}
+        \item {\it Curso:} Álgebra Conmutativa \hfill Jul. - Dic. 2019
+        \item {\it Curso:} Álgebra Lineal 2 \hfill Jul. - Dic. 2018
+        \item {\it Curso:} Matemática Estructural \hfill Ene. - Jun. 2017
+        \item [-] Revisión de tareas entregadas por los estudiantes. 
+        \item [-] Apoyo al profesor para calificación de quices y exámenes. 
+    \end{innerlist}
+    \item {\bf Tutor de Pentágono} \hfill 2017-2021 \\ Departmento de Matemáticas, Universidad de los Andes.
+    \begin{innerlist}
+        \item[-] Apoyo a estudiantes con ejercicios de cálculo básicos o cursos tempranos \\ de la carrera de matemáticas.
+    \end{innerlist}
+    \item {\bf Tutor de Clínica de Problemas}\hfill 2017-2019 \\ Departmento de Física, Universidad de los Andes. 
+    \begin{innerlist}
+        \item[-] Apoyo a estudiantes con ejercicios de física básica o cursos tempranos \\ de la carrera de física.
+    \end{innerlist}
+    
+\end{outerlist}
+
+%% =========  ==============================
+\section{Idiomas}
+\vspace{-0.25in}
+\begin{outerlist}
+\item {\bf Español:} Nativo.
+\item {\bf Inglés:} Avanzado (TOEFL iBT: 109/120).
+\end{outerlist}
+%% =========  ==============================
+\section{Habilidades técnicas} % (fold)
+\vspace{-0.25in}
+\begin{outerlist}
+  \item {\it Lenguajes de programación}: Python, Sage, LaTeX, R, C++, Java.
+  \item {\it Software especializados}: Mathematica.
+\end{outerlist}
+%% =========  ==============================
+\section{References}
+\vspace{-0.25in}
+\begin{outerlist}
+\item Carolina Benedetti Valásquez, Assistant Professor, Universidad de los Andes. \\ Mail address: c.benedetti@uniandes.edu.co
+\item Kolja Knauer, Associate Professor, Universitat de Barcelona\\ Mail address: kolja.knauer@googlemail.com
+\end{outerlist}
+
+\end{document}
